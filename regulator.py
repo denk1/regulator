@@ -9,6 +9,8 @@ y_aim = [0, 0, -1.903, -7.322, -15.432, -25, -34.567, -42, -48.09, -50, -50, - 5
 L = 2.4  # База ТС
 B = 1.2  # Колея ТС
 
+f = open("steer.txt", "w")
+
 
 def traek(tetta, x, y, x_aim, y_aim, dot_count):
     # tetta - угол между продольной осью и осью Х
@@ -50,6 +52,7 @@ def traek(tetta, x, y, x_aim, y_aim, dot_count):
 
 
 async def steering_command(ws, tetta):
+    f.write(str(tetta) + '\n')
     if tetta < 0:
         await ws.send("{\"action\":\"turn_left_up\", \"params\":{}}")
         await ws.send("{\"action\":\"turn_right_down\", \"params\":{\"steering_angle\":" + str(max(tetta, -45.0)) + "}}")
