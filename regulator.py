@@ -48,15 +48,19 @@ def traek(tetta, x, y, x_aim, y_aim, dot_count):
 
     return tetta_k1, tetta_k2, tetta_r, dot_count
 
+
 async def steering_command(ws, tetta):
     if tetta < 0:
-        await ws.send("{\"action\":\"turn_right_down\", \"params\":{\"steering_angle\":" + str(max(tetta, -40.0)) + "}}")
+        await ws.send("{\"action\":\"turn_left_up\", \"params\":{}}")
+        await ws.send("{\"action\":\"turn_right_down\", \"params\":{\"steering_angle\":" + str(max(tetta, -45.0)) + "}}")
     elif tetta > 0:
-        await ws.send("{\"action\":\"turn_left_down\", \"params\":{\"steering_angle\":" + str(min(tetta, 40.0)) + "}}")
+        await ws.send("{\"action\":\"turn_right_up\", \"params\":{}}")
+        await ws.send("{\"action\":\"turn_left_down\", \"params\":{\"steering_angle\":" + str(min(tetta, 45.0)) + "}}")
+
 
 async def on_message():
     async with websockets.connect("ws://192.168.12.49:6789") as websocket:
-        await websocket.send('{\"action\":\"racing_down\", \"params\":{\"throttle_proc\":2}}')
+        await websocket.send('{\"action\":\"racing_down\", \"params\":{\"throttle_proc\":4}}')
         count = 0
         while True:
             greeting = await websocket.recv()
